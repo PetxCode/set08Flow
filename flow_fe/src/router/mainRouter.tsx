@@ -3,6 +3,8 @@ import Layout from "../components/Layout";
 import HomeScreen from "../pages/HomeScreen";
 import Sign_in from "../pages/Sign_in";
 import PrivateRoute from "./PrivateRoute";
+import Register from "../pages/auth/Register";
+import Login from "../pages/auth/Login";
 export const mainRouter = createBrowserRouter([
   {
     path: "/",
@@ -24,7 +26,11 @@ export const mainRouter = createBrowserRouter([
     ],
   },
   {
-    path: "/signin",
-    element: <Sign_in />,
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createUser,
   deleteOneUser,
+  signinUser,
   viewOneUser,
   viewUsers,
 } from "../controller/userController";
@@ -9,6 +10,7 @@ import {
 const router: Router = Router();
 
 router.route("/create-user").post(createUser);
+router.route("/login-user").post(signinUser);
 
 router.route("/view-all-user").get(viewUsers);
 router.route("/view-one-user/:userID").get(viewOneUser);
