@@ -5,26 +5,70 @@ import { Types } from "mongoose";
 
 export const createStaff = async (req: Request, res: Response) => {
   try {
-    const { userID } = req.params;
-    const { staffName, email, password, avatar } = req.body;
+    const { staffName, email, password, avatar, uniqueCode, companyName } =
+      req.body;
 
-    const user = await userModel.findById(userID);
+    const user: any = await userModel.findOne({ uniqueCode });
 
-    if (user) {
-      const staff = await staffModel.create({
-        staffName,
-        email,
-        password,
-        avatar: staffName.charAt(0),
-      });
+    if (user?.companyName === companyName && user?.uniqueCode === uniqueCode) {
+      if (user.plan === "freemo") {
+        if (user.staff.length <= 3) {
+          const staff = await staffModel.create({
+            staffName,
+            email,
+            password,
+            avatar: staffName.charAt(0),
+          });
 
-      user.staff.push(new Types.ObjectId(staff._id));
-      user.save();
+          user.staff.push(new Types.ObjectId(staff._id));
+          user.save();
 
-      return res.status(201).json({
-        message: "creating staff",
-        data: staff,
-      });
+          return res.status(201).json({
+            message: "creating staff",
+            data: staff,
+          });
+        } else {
+          return res.status(404).json({
+            message: "upgrade your plan",
+          });
+        }
+      } else if (user.plan === "bromo") {
+        if (user.staff.length <= 7) {
+          const staff = await staffModel.create({
+            staffName,
+            email,
+            password,
+            avatar: staffName.charAt(0),
+          });
+
+          user.staff.push(new Types.ObjectId(staff._id));
+          user.save();
+
+          return res.status(201).json({
+            message: "creating staff",
+            data: staff,
+          });
+        } else {
+          return res.status(404).json({
+            message: "upgrade your plan",
+          });
+        }
+      } else if (user.plan === "premo") {
+        const staff = await staffModel.create({
+          staffName,
+          email,
+          password,
+          avatar: staffName.charAt(0),
+        });
+
+        user.staff.push(new Types.ObjectId(staff._id));
+        user.save();
+
+        return res.status(201).json({
+          message: "creating staff",
+          data: staff,
+        });
+      }
     } else {
       return res.status(404).json({
         message: "Error matching user",

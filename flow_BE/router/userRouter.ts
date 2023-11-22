@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
-  createUser,
+  createUserBromo,
+  createUserFreemo,
+  createUserPremo,
   deleteOneUser,
   signinUser,
   viewOneUser,
@@ -9,7 +11,9 @@ import {
 
 const router: Router = Router();
 
-router.route("/create-user").post(createUser);
+router.route("/create-user-freemo").post(createUserFreemo);
+router.route("/create-user-bromo").post(createUserBromo);
+router.route("/create-user-premo").post(createUserPremo);
 router.route("/login-user").post(signinUser);
 
 router.route("/view-all-user").get(viewUsers);

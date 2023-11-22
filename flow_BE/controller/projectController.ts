@@ -9,28 +9,78 @@ export const createProject = async (req: Request, res: Response) => {
     const { userID } = req.params;
     const { projectName, budget, deadline } = req.body;
 
-    const user = await userModel.findById(userID);
+    const user: any = await userModel.findById(userID);
 
-    if (user) {
-      const project = await projectModel.create({
-        projectName,
-        budget,
-        deadline,
-        budgetGivenOut: 0,
-        budgetLeft: budget,
-      });
+    if (user.plan === "freemo") {
+      if (user?.project.length <= 5) {
+        if (user) {
+          const project = await projectModel.create({
+            projectName,
+            budget,
+            deadline,
+            budgetGivenOut: 0,
+            budgetLeft: budget,
+          });
 
-      user.project.push(new Types.ObjectId(project._id));
-      user.save();
+          user.project.push(new Types.ObjectId(project._id));
+          user.save();
 
-      return res.status(201).json({
-        message: "creating project",
-        data: project,
-      });
-    } else {
-      return res.status(404).json({
-        message: "Error matching user",
-      });
+          return res.status(201).json({
+            message: "creating project",
+            data: project,
+          });
+        } else {
+          return res.status(404).json({
+            message: "Error matching user",
+          });
+        }
+      }
+    } else if (user.plan === "bromo") {
+      if (user?.project.length <= 15) {
+        if (user) {
+          const project = await projectModel.create({
+            projectName,
+            budget,
+            deadline,
+            budgetGivenOut: 0,
+            budgetLeft: budget,
+          });
+
+          user.project.push(new Types.ObjectId(project._id));
+          user.save();
+
+          return res.status(201).json({
+            message: "creating project",
+            data: project,
+          });
+        } else {
+          return res.status(404).json({
+            message: "Error matching user",
+          });
+        }
+      }
+    } else if (user.plan === "premo") {
+      if (user) {
+        const project = await projectModel.create({
+          projectName,
+          budget,
+          deadline,
+          budgetGivenOut: 0,
+          budgetLeft: budget,
+        });
+
+        user.project.push(new Types.ObjectId(project._id));
+        user.save();
+
+        return res.status(201).json({
+          message: "creating project",
+          data: project,
+        });
+      } else {
+        return res.status(404).json({
+          message: "Error matching user",
+        });
+      }
     }
   } catch (error) {
     return res.status(404).json({

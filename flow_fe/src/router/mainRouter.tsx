@@ -5,6 +5,8 @@ import Sign_in from "../pages/Sign_in";
 import PrivateRoute from "./PrivateRoute";
 import Register from "../pages/auth/Register";
 import Login from "../pages/auth/Login";
+import RegisterBroMo from "../pages/auth/BroMoRegister";
+import RegisterFreeMo from "../pages/auth/FreeMoRegister";
 export const mainRouter = createBrowserRouter([
   {
     path: "/",
@@ -32,5 +34,13 @@ export const mainRouter = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register-freemo",
+    element: <RegisterFreeMo />,
+  },
+  {
+    path: "/register-bromo",
+    element: <RegisterBroMo />,
   },
 ]);
